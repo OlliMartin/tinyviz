@@ -6,11 +6,10 @@
         <AnalysisLevel>latest</AnalysisLevel>
         <WarningsAsErrors>true</WarningsAsErrors>
     </PropertyGroup>
-
     <ItemGroup Label="Rendering">
         <PackageVersion Include="Plotly.NET" Version="5.1.0"/>
+        <PackageVersion Include="Plotly.NET.CSharp" Version="0.13.0"/>
     </ItemGroup>
-
     <ItemGroup Label="Metadata">
         <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
     </ItemGroup>

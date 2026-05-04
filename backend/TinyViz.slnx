@@ -1,6 +1,7 @@
 <Solution>
 	<Folder Name="/.misc/">
 		<File Path="../.gitignore" />
+		<File Path=".editorconfig" />
 		<File Path="Directory.Build.props" />
 		<File Path="Directory.Packages.props" />
 	</Folder>
@@ -9,6 +10,9 @@
 	</Folder>
 	<Folder Name="/src/.misc/">
 		<File Path="src/Directory.Build.props" />
+	</Folder>
+	<Folder Name="/src/.playground/">
+		<Project Path="src/.playground/TinyViz.Playground.Console/TinyViz.Playground.Console.csproj" />
 	</Folder>
 	<Folder Name="/test/">
 		<Project Path="test/Unit.TinyViz.Renderer/Unit.TinyViz.Renderer.csproj" />
