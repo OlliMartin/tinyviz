@@ -1,7 +1,9 @@
 <Solution>
 	<Folder Name="/.misc/">
+		<File Path="../.csharpierignore" />
+		<File Path="../.csharpierrc.yaml" />
+		<File Path="../.editorconfig" />
 		<File Path="../.gitignore" />
-		<File Path=".editorconfig" />
 		<File Path="Directory.Build.props" />
 		<File Path="Directory.Packages.props" />
 	</Folder>
