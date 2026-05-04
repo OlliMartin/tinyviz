@@ -2,16 +2,18 @@
     <PropertyGroup Label="CPM">
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
-
     <PropertyGroup Label="Code Analysis">
         <AnalysisLevel>latest</AnalysisLevel>
         <WarningsAsErrors>true</WarningsAsErrors>
     </PropertyGroup>
 
+    <ItemGroup Label="Rendering">
+        <PackageVersion Include="Plotly.NET" Version="5.1.0"/>
+    </ItemGroup>
+
     <ItemGroup Label="Metadata">
         <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
     </ItemGroup>
-
     <ItemGroup Label="Test Framework">
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1"/>
         <PackageVersion Include="xunit.v3" Version="3.2.2"/>
