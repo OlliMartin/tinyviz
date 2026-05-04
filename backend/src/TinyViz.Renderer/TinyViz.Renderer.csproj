@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <PackageReference Include="Plotly.NET"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Plotly.NET" />
+  </ItemGroup>
 </Project>

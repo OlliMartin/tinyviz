@@ -1,15 +1,15 @@
 <Project>
-    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
 
-    <!-- 
+  <!-- 
         With xUnit 3 all testprojects produce a standalone .exe, so all test projects can be outputType=exe. 
         If a shared test library is required, this needs to be unset, otherwise there will not be an entrypoint.    
     -->
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-    </PropertyGroup>
-    
-    <ItemGroup Label="Test Framework">
-        <PackageReference Include="xunit.v3" />
-    </ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup Label="Test Framework">
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\TinyViz.Renderer\TinyViz.Renderer.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\TinyViz.Renderer\TinyViz.Renderer.csproj" />
+  </ItemGroup>
 </Project>
