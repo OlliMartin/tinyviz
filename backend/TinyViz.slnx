@@ -10,7 +10,10 @@
   <Folder Name="/src/">
     <Project Path="src/TinyViz.Contracts/TinyViz.Contracts.csproj" />
     <Project Path="src/TinyViz.DataSource.Prometheus/TinyViz.DataSource.Prometheus.csproj" />
+    <Project Path="src/TinyViz.Entrypoint/TinyViz.Entrypoint.csproj" />
     <Project Path="src/TinyViz.Renderer/TinyViz.Renderer.csproj" />
+    <Project Path="src/TinyViz.RestApi/TinyViz.RestApi.csproj" />
+    <Project Path="src/TinyViz.WebUi/TinyViz.WebUi.csproj" />
   </Folder>
   <Folder Name="/src/.misc/">
     <File Path="src/Directory.Build.props" />
