@@ -8,6 +8,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" />
+    <PackageReference Include="BootstrapBlazor.CodeEditor" />
+    <PackageReference Include="BootstrapBlazor.Markdown" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

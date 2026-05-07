@@ -1,1 +1,20 @@
-<AppRouter/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css"]"/>
+    <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor/css/motronic.min.css"]"/>
+
+    <HeadOutlet/>
+</head>
+
+<body>
+<AppRouter @rendermode="InteractiveServer"/>
+
+<script src="@Assets["_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"]"></script>
+
+<script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+

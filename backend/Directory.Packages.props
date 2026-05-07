@@ -9,11 +9,9 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
   </ItemGroup>
-
   <ItemGroup Label="M.Ext.* Abstraction Packages">
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MExtVersion)" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MExtVersion)" />
@@ -35,5 +33,10 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+  <ItemGroup Label="Web UI">
+    <PackageVersion Include="BootstrapBlazor" Version="10.6.0" />
+    <PackageVersion Include="BootstrapBlazor.CodeEditor" Version="10.0.0" />
+    <PackageVersion Include="BootstrapBlazor.Markdown" Version="10.0.0" />
   </ItemGroup>
 </Project>

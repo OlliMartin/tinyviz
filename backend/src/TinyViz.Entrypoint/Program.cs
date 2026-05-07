@@ -8,6 +8,8 @@ builder.Services.AddRestApi(configuration).AddWebUi(configuration);
 
 var app = builder.Build();
 
+app.UseRouting();
+
 app.MapRestApi().MapWebUi();
 
 app.Run();

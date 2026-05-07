@@ -17,7 +17,7 @@ public static class DependencyInjectionExtensions
                 {
                     options.DetailedErrors = true;
                 })
-                .Services;
+                .Services.AddBootstrapBlazor();
     }
 
     extension(WebApplication app)
@@ -30,6 +30,7 @@ public static class DependencyInjectionExtensions
             }
 
             app.UseAntiforgery();
+
             app.MapStaticAssets();
 
             app.MapRazorComponents<WebUi>().AddInteractiveServerRenderMode();

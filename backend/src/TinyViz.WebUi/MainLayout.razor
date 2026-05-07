@@ -1,11 +1,20 @@
 @inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <!-- nav here -->
-    </div>
-
-    <main class="main">
+<BootstrapBlazorRoot>
+    <Navbar>
+        <NavbarBrand>
+            <a>Navbar</a>
+        </NavbarBrand>
+        <NavbarToggleButton Target="#test"></NavbarToggleButton>
+        <NavbarCollapse Id="test">
+            <NavbarGroup IsScrolling="true">
+                <NavbarLink>Home</NavbarLink>
+                <NavbarLink>Editor</NavbarLink>
+                <NavbarLink>Settings</NavbarLink>
+            </NavbarGroup>
+        </NavbarCollapse>
+    </Navbar>
+    <main>
         @Body
     </main>
-</div>
+</BootstrapBlazorRoot>

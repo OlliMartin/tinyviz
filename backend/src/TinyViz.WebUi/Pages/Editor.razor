@@ -1,0 +1,30 @@
+@page "/Editor"
+@rendermode InteractiveServer
+
+<CodeEditor Value="@Code" Language="yaml" ShowLineNo="true" Theme="vs-dark"/>
+
+@code {
+
+    private string Code { get; set; }
+        = """
+          global:
+            style:
+          dataSources:
+            prom:
+              type: prometheus
+              baseUrl: 'prom.acaad.dev'
+              auth: null
+          plots:
+            power_consumption:
+              plot:
+                type: scatter
+              dataSource:
+                type: range
+                backend: prom
+                timeRange: now - 6h
+                query: |
+                  power_consumption{device="audio-interface"}
+
+          """;
+
+}
