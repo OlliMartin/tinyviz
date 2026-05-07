@@ -8,6 +8,8 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/TinyViz.Contracts/TinyViz.Contracts.csproj" />
+    <Project Path="src/TinyViz.DataSource.Prometheus/TinyViz.DataSource.Prometheus.csproj" />
     <Project Path="src/TinyViz.Renderer/TinyViz.Renderer.csproj" />
   </Folder>
   <Folder Name="/src/.misc/">

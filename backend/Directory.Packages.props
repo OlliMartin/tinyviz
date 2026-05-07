@@ -2,13 +2,31 @@
   <PropertyGroup Label="CPM">
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+  <PropertyGroup Label="Dependecy Group Versions">
+    <MExtVersion>10.0.7</MExtVersion>
+  </PropertyGroup>
   <PropertyGroup Label="Code Analysis">
     <AnalysisLevel>latest</AnalysisLevel>
     <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Label="M.Ext.* Abstraction Packages">
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MExtVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MExtVersion)" />
+  </ItemGroup>
+  <ItemGroup Label="M.Ext.* Packages">
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(MExtVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(MExtVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(MExtVersion)" />
+  </ItemGroup>
   <ItemGroup Label="Rendering">
     <PackageVersion Include="Plotly.NET" Version="5.1.0" />
     <PackageVersion Include="Plotly.NET.CSharp" Version="0.13.0" />
+    <PackageVersion Include="Plotly.NET.ImageExport" Version="6.1.0" />
   </ItemGroup>
   <ItemGroup Label="Metadata">
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
