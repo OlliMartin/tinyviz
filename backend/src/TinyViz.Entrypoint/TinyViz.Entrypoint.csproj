@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
+    <ProjectReference Include="..\TinyViz.RestApi\TinyViz.RestApi.csproj" />
     <ProjectReference Include="..\TinyViz.WebUi\TinyViz.WebUi.csproj" />
   </ItemGroup>
 </Project>
