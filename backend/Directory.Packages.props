@@ -38,6 +38,7 @@
   <ItemGroup Label="Web UI">
     <PackageVersion Include="BootstrapBlazor" Version="10.6.0" />
     <PackageVersion Include="BootstrapBlazor.CodeEditor" Version="10.0.0" />
+    <PackageVersion Include="BootstrapBlazor.Dock" Version="10.0.0" />
     <PackageVersion Include="BootstrapBlazor.DockView" Version="10.0.10" />
     <PackageVersion Include="BootstrapBlazor.Markdown" Version="10.0.0" />
   </ItemGroup>
