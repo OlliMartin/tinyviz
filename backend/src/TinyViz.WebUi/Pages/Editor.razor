@@ -1,4 +1,6 @@
 @page "/Editor"
+@using TinyViz.WebUi.Components.Preview
+@using Console = System.Console
 @rendermode InteractiveServer
 
 <div class="dock-yaml-editor">
@@ -6,13 +8,17 @@
         <DockContent Type="DockContentType.Row">
             <DockContent Type="DockContentType.Column">
                 <DockComponent Title="Yaml Editor">
-                    <CodeEditor Value="@Code" Language="yaml" ShowLineNo="true"/>
+                    <CodeEditor Value="@ImageYaml" Language="yaml" ShowLineNo="true" OnValueChanged="OnYamlUpdated"/>
                 </DockComponent>
             </DockContent>
 
             <DockContent Type="DockContentType.Column">
                 <DockComponent Title="Preview">
-                    Preview
+                    <MultiImagePreview ImageYaml="@ImageYaml"/>
+
+                    <Divider/>
+
+                    <JsonPreview ImageYaml="@ImageYaml"/>
                 </DockComponent>
             </DockContent>
         </DockContent>
@@ -25,7 +31,7 @@
 
 @code {
 
-    private string Code { get; set; }
+    public string ImageYaml { get; set; }
         = """
           global:
             style:
@@ -46,5 +52,12 @@
                   power_consumption{device="audio-interface"}
 
           """;
+
+    private Task OnYamlUpdated(string? arg)
+    {
+        ImageYaml = arg ?? string.Empty;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
 }
