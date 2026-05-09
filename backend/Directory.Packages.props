@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
+    <PackageVersion Include="YamlDotNet" Version="17.1.0" />
   </ItemGroup>
   <ItemGroup Label="M.Ext.* Abstraction Packages">
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MExtVersion)" />
@@ -37,6 +38,7 @@
   <ItemGroup Label="Web UI">
     <PackageVersion Include="BootstrapBlazor" Version="10.6.0" />
     <PackageVersion Include="BootstrapBlazor.CodeEditor" Version="10.0.0" />
+    <PackageVersion Include="BootstrapBlazor.DockView" Version="10.0.10" />
     <PackageVersion Include="BootstrapBlazor.Markdown" Version="10.0.0" />
   </ItemGroup>
 </Project>

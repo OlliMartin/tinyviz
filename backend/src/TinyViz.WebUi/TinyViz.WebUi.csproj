@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="BootstrapBlazor" />
     <PackageReference Include="BootstrapBlazor.CodeEditor" />
+    <PackageReference Include="BootstrapBlazor.DockView" />
     <PackageReference Include="BootstrapBlazor.Markdown" />
   </ItemGroup>
 

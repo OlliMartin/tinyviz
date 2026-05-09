@@ -13,6 +13,7 @@
     <Project Path="src/TinyViz.Entrypoint/TinyViz.Entrypoint.csproj" />
     <Project Path="src/TinyViz.Renderer/TinyViz.Renderer.csproj" />
     <Project Path="src/TinyViz.RestApi/TinyViz.RestApi.csproj" />
+    <Project Path="src/TinyViz.Serialization/TinyViz.Serialization.csproj" />
     <Project Path="src/TinyViz.WebUi/TinyViz.WebUi.csproj" />
   </Folder>
   <Folder Name="/src/.misc/">

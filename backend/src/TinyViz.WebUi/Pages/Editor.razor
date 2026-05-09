@@ -1,9 +1,30 @@
 @page "/Editor"
 @rendermode InteractiveServer
 
+<DockView @ref="dockView" class="h-100">
+    <DockViewItem Id="editor" Title="Editor">
+        <div class="d-flex flex-column h-100">
+            <textarea class="form-control flex-grow-1" rows="20" @bind="Code" @bind:event="oninput"></textarea>
+        </div>
+    </DockViewItem>
+
+    <DockViewItem Id="preview" Title="Live Preview">
+        <div class="preview-container h-100 overflow-auto p-3 bg-light">
+            Preview
+        </div>
+    </DockViewItem>
+
+    <DockViewItem Id="console" Title="Console" IsCloseable="true">
+        <div class="h-100 p-3">
+            <small>Console Output</small>
+        </div>
+    </DockViewItem>
+</DockView>
+
 <CodeEditor Value="@Code" Language="yaml" ShowLineNo="true" Theme="vs-dark"/>
 
 @code {
+    private DockView? dockView;
 
     private string Code { get; set; }
         = """
