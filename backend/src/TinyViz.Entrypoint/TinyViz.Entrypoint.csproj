@@ -4,6 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TinyViz.Renderer\TinyViz.Renderer.csproj" />
     <ProjectReference Include="..\TinyViz.RestApi\TinyViz.RestApi.csproj" />
     <ProjectReference Include="..\TinyViz.WebUi\TinyViz.WebUi.csproj" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 @page "/Editor"
 @using TinyViz.WebUi.Components.Preview
-@using Console = System.Console
 @rendermode InteractiveServer
 
 <div class="dock-yaml-editor">
@@ -33,24 +32,16 @@
 
     public string ImageYaml { get; set; }
         = """
-          global:
-            style:
-          dataSources:
-            prom:
-              type: prometheus
-              baseUrl: 'prom.acaad.dev'
-              auth: null
-          plots:
-            power_consumption:
-              plot:
-                type: scatter
-              dataSource:
-                type: range
-                backend: prom
-                timeRange: now - 6h
-                query: |
-                  power_consumption{device="audio-interface"}
-
+          chart:
+          layout:
+            margin:
+              l: 3
+              r: 3
+              t: 28
+              b: 0
+            annotations:
+              x: 0.5
+              y: 0.3
           """;
 
     private Task OnYamlUpdated(string? arg)

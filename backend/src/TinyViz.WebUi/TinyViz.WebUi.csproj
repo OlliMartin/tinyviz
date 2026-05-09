@@ -14,4 +14,8 @@
     <PackageReference Include="BootstrapBlazor.DockView" />
     <PackageReference Include="BootstrapBlazor.Markdown" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TinyViz.Renderer\TinyViz.Renderer.csproj" />
+  </ItemGroup>
 </Project>

@@ -1,9 +1,61 @@
-<div>
-    <div>Native Resolution</div>
-    <div>Zoomed In</div>
+@using Plotly.NET
+@using TinyViz.Renderer
+
+@inject IGraphRenderer graphRenderer
+@inject IChartBuilder chartBuilder
+
+<div class="multi-image-preview">
+    <div style="height: @(BaseResolution)px; width: @(BaseResolution)px">
+        @if (IsGenerating is false)
+        {
+            <img src="@ImagePngB64" alt="The preview of the Chart being edited."/>
+        }
+        else
+        {
+            <SkeletonAvatar Round="false"/>
+        }
+    </div>
 </div>
 
 @code
 {
     [Parameter] public string? ImageYaml { get; set; } = string.Empty;
+
+    private const int BaseResolution = 144;
+    private string? ImagePngB64 { get; set; }
+
+    private bool IsGenerating { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        double value = Random.Shared.NextDouble() * 100;
+
+        await GenerateImageAsync(
+            value,
+            BaseResolution,
+            next => IsGenerating = next,
+            png => ImagePngB64 = png
+        );
+    }
+
+    private async Task GenerateImageAsync(
+        double value,
+        int resolution,
+        Action<bool> updateLoading,
+        Action<string> updateValue
+    )
+    {
+        updateLoading(obj: true);
+
+        try
+        {
+            GenericChart chart = await chartBuilder.BuildAsync(value, CancellationToken.None);
+            string nextPngValue = await graphRenderer.RenderAsync(chart, resolution, CancellationToken.None);
+            updateValue(nextPngValue);
+        }
+        finally
+        {
+            updateLoading(obj: false);
+        }
+    }
 }

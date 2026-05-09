@@ -1,0 +1,6 @@
+.multi-image-preview ::deep .skeleton,
+.multi-image-preview ::deep .skeleton-content,
+.multi-image-preview ::deep .skeleton-avatar {
+  height: 100%;
+  width: 100%;
+}

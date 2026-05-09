@@ -155,6 +155,6 @@ var chart = GenericChart.ofTraceObject(useDefaults: false, gaugeTrace).WithLayou
 
 var tempFile = Path.GetTempFileName();
 
-var renderedChart = await renderer.RenderAsync(chart);
+var renderedChart = await renderer.RenderAsync(chart, dimensions: 144);
 
 Console.WriteLine("hi");
