@@ -1,25 +1,27 @@
 @page "/Editor"
 @rendermode InteractiveServer
 
-<DockView class="dock-editor" Name="Editor">
-    <DockContent Type="DockContentType.Row">
-        <DockContent Type="DockContentType.Column">
-            <DockComponent Title="Yaml Editor">
-                <CodeEditor Value="@Code" Language="yaml" ShowLineNo="true" Theme="vs-dark"/>
-            </DockComponent>
+<div class="dock-yaml-editor">
+    <DockView Name="Editor">
+        <DockContent Type="DockContentType.Row">
+            <DockContent Type="DockContentType.Column">
+                <DockComponent Title="Yaml Editor">
+                    <CodeEditor Value="@Code" Language="yaml" ShowLineNo="true"/>
+                </DockComponent>
+            </DockContent>
+
+            <DockContent Type="DockContentType.Column">
+                <DockComponent Title="Preview">
+                    Preview
+                </DockComponent>
+            </DockContent>
         </DockContent>
 
-        <DockContent Type="DockContentType.Column">
-            <DockComponent Title="Preview">
-                Preview
-            </DockComponent>
-        </DockContent>
-    </DockContent>
-
-    @* <DockContent Type="DockContentType.Row"> *@
-    @*     Console *@
-    @* </DockContent> *@
-</DockView>
+        @* <DockContent Type="DockContentType.Row"> *@
+        @*     Console *@
+        @* </DockContent> *@
+    </DockView>
+</div>
 
 @code {
 

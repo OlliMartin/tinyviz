@@ -1,4 +1,11 @@
-::deep + .dock-editor {
-  height: calc(100% - 68px);
-  margin-top: 1rem;
+.dock-yaml-editor {
+  height: calc(100% - 56px);
+}
+
+.dock-yaml-editor ::deep .code-editor {
+  height: 100%;
+}
+
+.dock-yaml-editor ::deep .code-editor-body {
+  height: 100%;
 }
