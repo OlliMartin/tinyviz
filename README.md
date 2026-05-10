@@ -21,7 +21,7 @@ http requests. An editor to define the appearance of a graph is available.
 
 The following image was rendered with a proof-of-concept of `TinyViz`:
 
-![.docs/images/example_cpu_util.png]
+![ExampleVIZ: CPU Util](.docs/images/example_cpu_util.png)
 
 ## Overview
 
