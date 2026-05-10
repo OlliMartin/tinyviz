@@ -1,3 +1,9 @@
 namespace TinyViz.Contracts.Model.ChartSpecification;
 
-public class ChartDefinition { }
+[UsedImplicitly]
+public record ChartDefinition
+{
+    public required ChartDescriptor Chart { get; init; }
+
+    public LayoutDescriptor? Layout { get; init; }
+}

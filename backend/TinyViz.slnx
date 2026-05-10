@@ -25,6 +25,7 @@
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/Unit.TinyViz.Renderer/Unit.TinyViz.Renderer.csproj" />
+    <Project Path="test/Unit.TinyViz.Serialization/Unit.TinyViz.Serialization.csproj" />
   </Folder>
   <Folder Name="/test/.misc/">
     <File Path="test/Directory.Build.props" />

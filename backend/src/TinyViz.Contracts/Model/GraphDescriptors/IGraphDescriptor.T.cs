@@ -4,5 +4,5 @@ public interface IGraphDescriptor<out T> : IGraphDescriptor
 {
     T Typed { get; }
 
-    object IGraphDescriptor.Untyped => Typed;
+    object IGraphDescriptor.Untyped => Typed ?? throw new InvalidCastException();
 }

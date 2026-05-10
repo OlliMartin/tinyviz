@@ -1,15 +1,23 @@
 <Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
 
-  <!-- 
-        With xUnit 3 all testprojects produce a standalone .exe, so all test projects can be outputType=exe. 
-        If a shared test library is required, this needs to be unset, otherwise there will not be an entrypoint.    
+  <!--
+        With xUnit 3 all testprojects produce a standalone .exe, so all test projects can be outputType=exe.
+        If a shared test library is required, this needs to be unset, otherwise there will not be an entrypoint.
     -->
   <PropertyGroup>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup Label="Test Framework">
+    <PackageReference Include="Shouldly" />
     <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="JetBrains.Annotations" />
+    <Using Include="Shouldly" />
+    <Using Include="Xunit" />
   </ItemGroup>
 </Project>
