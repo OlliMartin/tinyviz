@@ -19,6 +19,10 @@ This project's goal is it to visualize _any_ time-series data, in Grafana terms 
 Visualizations can be defined in pure YAML (including how to retrieve the data) and can be downloaded by simple `GET`
 http requests. An editor to define the appearance of a graph is available.
 
+The following image was rendered with a proof-of-concept of `TinyViz`:
+
+![.docs/images/example_cpu_util.png]
+
 ## Overview
 
 The following diagram gives a high-level (loose) overview of the architecture of `TinyViz`.
