@@ -23,7 +23,7 @@ http requests. An editor to define the appearance of a graph is available.
 
 The following diagram gives a high-level (loose) overview of the architecture of `TinyViz`.
 
-:::mermaid
+```mermaid
 flowchart
     
   companion[[Bitfocus Companion]]
@@ -56,7 +56,7 @@ flowchart
   dsAbstraction -->|Reads| influx
   
   companion -->|Periodically retrieves Images| rest
-:::
+```
 
 ## The Goal
 
