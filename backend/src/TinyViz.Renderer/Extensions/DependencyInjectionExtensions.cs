@@ -13,7 +13,7 @@ public static class DependencyInjectionExtensions
     {
         public IServiceCollection AddGraphRendering(IConfiguration configurationRoot)
         {
-            serviceCollection.TryAddSingleton<IRendererFacade, DefaultRendererFacade>();
+            serviceCollection.TryAddScoped<IRendererFacade, DefaultRendererFacade>();
 
             serviceCollection.TryAddScoped<IChartBuilder, ConfigurationChartBuilder>();
 

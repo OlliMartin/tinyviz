@@ -1,10 +1,7 @@
-@using Plotly.NET
-@using TinyViz.Contracts.Model.ChartSpecification
 @using TinyViz.Contracts.Model.GraphDescriptors
 @using TinyViz.Renderer
 
-@inject IGraphRenderer graphRenderer
-@inject IChartBuilder chartBuilder
+@inject IRendererFacade rendererFacade;
 
 <div class="multi-image-preview">
     <div style="height: @(BaseResolution)px; width: @(BaseResolution)px">
@@ -21,7 +18,7 @@
 
 @code
 {
-    [Parameter] public string? ImageYaml { get; set; } = string.Empty;
+    [Parameter] public string? ImageYaml { get; set; }
 
     private const int BaseResolution = 144;
     private string? ImagePngB64 { get; set; }
@@ -32,7 +29,13 @@
     {
         double value = Random.Shared.NextDouble() * 100;
 
+        if (ImageYaml is null)
+        {
+            return;
+        }
+
         await GenerateImageAsync(
+            ImageYaml,
             value,
             BaseResolution,
             next => IsGenerating = next,
@@ -41,6 +44,7 @@
     }
 
     private async Task GenerateImageAsync(
+        string imageYaml,
         double value,
         int resolution,
         Action<bool> updateLoading,
@@ -51,10 +55,13 @@
 
         try
         {
-            ConfigurableGraphDescriptor graphDescriptor = new(new());
-            GenericChart chart = await chartBuilder.BuildAsync(graphDescriptor, value, CancellationToken.None);
-            string nextPngValue = await graphRenderer.RenderAsync(chart, resolution, CancellationToken.None);
+            YamlGraphDescriptor graphDescriptor = new(imageYaml);
+            string nextPngValue = await rendererFacade.RenderPngAsync(graphDescriptor);
             updateValue(nextPngValue);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Handle (yaml invalid format, generation error)
         }
         finally
         {

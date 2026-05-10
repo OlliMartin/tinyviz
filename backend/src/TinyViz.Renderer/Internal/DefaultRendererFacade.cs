@@ -8,7 +8,7 @@ public class DefaultRendererFacade(
     [FromKeyedServices(DiConstants.Keyed.PngRenderer)] IGraphRenderer pngGraphRenderer
 ) : IRendererFacade
 {
-    public async Task<string> RenderPngAsync(IGraphDescriptor graphRepresentation, CancellationToken cancellationToken)
+    public async Task<string> RenderPngAsync(IGraphDescriptor graphRepresentation, CancellationToken cancellationToken = default)
     {
         var responsibleBuilders = chartBuilders.Where(cb => cb.Handles(graphRepresentation)).ToList();
 
