@@ -53,7 +53,76 @@ public class YamlToConfigurationConverterTests
         var expectedTrace = new TraceDescriptor
         {
             TypeName = typeName,
-            AdditionalData = new() { ["mode"] = mode },
+            ExtensionData = new() { ["mode"] = mode },
+        };
+
+        casted.Typed.Chart.Trace.ShouldBe(expectedTrace, TraceDescriptor.JsonComparer);
+    }
+
+    [Fact]
+    public async Task ShouldDeserializeAdditionalPropertiesNested()
+    {
+        const string typeName = "indicator";
+        const string mode = "gauge";
+
+        var gd = FromYaml(
+            $"""
+            chart:
+              trace:
+                typeName: {typeName}
+                mode: {mode}
+                title:
+                  text: 'CPU Busy'
+            """
+        );
+
+        var result = await _testSubject.ConvertAsync(gd, _ct);
+
+        var casted = result.ShouldBeOfType<ConfigurableGraphDescriptor>();
+
+        var titleData = new Dictionary<string, object?> { ["text"] = "CPU Busy" };
+
+        var expectedTrace = new TraceDescriptor
+        {
+            TypeName = typeName,
+            ExtensionData = new() { ["mode"] = mode, ["title"] = titleData },
+        };
+
+        casted.Typed.Chart.Trace.ShouldBe(expectedTrace, TraceDescriptor.JsonComparer);
+    }
+
+    [Fact]
+    public async Task ShouldDeserializeAdditionalPropertiesNestedList()
+    {
+        const string typeName = "indicator";
+        const string mode = "gauge";
+
+        var gd = FromYaml(
+            $"""
+            chart:
+              trace:
+                typeName: {typeName}
+                mode: {mode}
+                domain:
+                  x:
+                    - 0.1
+                    - 1.0
+                  y:
+                    - 0.2
+                    - 1.0
+            """
+        );
+
+        var result = await _testSubject.ConvertAsync(gd, _ct);
+
+        var casted = result.ShouldBeOfType<ConfigurableGraphDescriptor>();
+
+        var domainData = new Dictionary<string, object?> { ["x"] = (List<double>)[0.1d, 1.0d], ["y"] = (List<double>)[0.2d, 1.0d] };
+
+        var expectedTrace = new TraceDescriptor
+        {
+            TypeName = typeName,
+            ExtensionData = new() { ["mode"] = mode, ["domain"] = domainData },
         };
 
         casted.Typed.Chart.Trace.ShouldBe(expectedTrace, TraceDescriptor.JsonComparer);
