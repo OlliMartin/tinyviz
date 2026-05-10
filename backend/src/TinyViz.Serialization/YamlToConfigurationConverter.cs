@@ -1,26 +1,27 @@
-using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using TinyViz.Contracts;
 using TinyViz.Contracts.Model.ChartSpecification;
 using TinyViz.Contracts.Model.Exceptions;
 using TinyViz.Contracts.Model.GraphDescriptors;
-using TinyViz.Serialization.Yaml;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization.NodeDeserializers;
 
 namespace TinyViz.Serialization;
 
 /// <summary>
-/// Converts a YAML configuration into the <see cref="ChartDefinition"/> representation.
+///     Converts a YAML configuration into the <see cref="ChartDefinition" /> representation.
 /// </summary>
-public class YamlToConfigurationConverter() : IGraphConverter<string, ChartDefinition>
+public class YamlToConfigurationConverter : IGraphConverter<string, ChartDefinition>
 {
+    private static readonly JsonSerializerOptions _camelCaseJsonSettings = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
     private static readonly IDeserializer _yamlDeserializer = new DeserializerBuilder()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
-        .WithNodeDeserializer(inner => new ComponentModelValidatorNodeDeserializer(inner), s => s.InsteadOf<ObjectNodeDeserializer>())
         .IgnoreUnmatchedProperties()
         .Build();
+
+    private static readonly ISerializer _jsonSerializer = new SerializerBuilder().JsonCompatible().Build();
 
     public Task<IGraphDescriptor<ChartDefinition>> ConvertAsync(
         IGraphDescriptor<string> graphDescriptor,
@@ -29,12 +30,21 @@ public class YamlToConfigurationConverter() : IGraphConverter<string, ChartDefin
     {
         try
         {
-            var result = _yamlDeserializer.Deserialize<ChartDefinition>(graphDescriptor.Typed);
+            var jsonNode = _yamlDeserializer.Deserialize<Dictionary<string, object?>>(graphDescriptor.Typed);
+            var jsonString = _jsonSerializer.Serialize(jsonNode);
+
+            var result = JsonSerializer.Deserialize<ChartDefinition>(jsonString, _camelCaseJsonSettings);
+
+            if (result is null)
+            {
+                throw new ConverterException("Could not deserialize provided YAML. Result object tree was null.");
+            }
+
             return Task.FromResult<IGraphDescriptor<ChartDefinition>>(new ConfigurableGraphDescriptor(result));
         }
-        catch (YamlException ex) when (ex.InnerException is ValidationException validationException)
+        catch (JsonException ex)
         {
-            throw new ConverterException("The deserialized YAML is not a valid graph descriptor.", validationException);
+            throw new ConverterException("The deserialized YAML is not a valid graph descriptor.", ex);
         }
         catch (YamlException ex)
         {

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using TinyViz.Contracts;
+using TinyViz.Contracts.Model.ChartSpecification;
 using TinyViz.Contracts.Model.Exceptions;
 using TinyViz.Contracts.Model.GraphDescriptors;
 using TinyViz.Serialization;
@@ -30,6 +31,34 @@ public class YamlToConfigurationConverterTests
         casted.Typed.Chart.Trace.ShouldSatisfyAllConditions(td => td.TypeName.ShouldBe("indicator"));
     }
 
+    [Fact]
+    public async Task ShouldDeserializeAdditionalProperties()
+    {
+        const string typeName = "indicator";
+        const string mode = "gauge";
+
+        var gd = FromYaml(
+            $"""
+            chart:
+              trace:
+                typeName: {typeName}
+                mode: {mode}
+            """
+        );
+
+        var result = await _testSubject.ConvertAsync(gd, _ct);
+
+        var casted = result.ShouldBeOfType<ConfigurableGraphDescriptor>();
+
+        var expectedTrace = new TraceDescriptor
+        {
+            TypeName = typeName,
+            AdditionalData = new() { ["mode"] = mode },
+        };
+
+        casted.Typed.Chart.Trace.ShouldBe(expectedTrace, TraceDescriptor.JsonComparer);
+    }
+
     [Theory]
     [InlineData("abc")]
     [InlineData(
@@ -38,7 +67,7 @@ public class YamlToConfigurationConverterTests
               trace:
                 typeNameMissing: yes
             """,
-        "The TypeName field is required."
+        "JSON deserialization for type 'TinyViz.Contracts.Model.ChartSpecification.TraceDescriptor' was missing required properties including: 'typeName'."
     )]
     public async Task ShouldThrowOnInvalidYaml(string invalidYaml, string? innerMessage = null)
     {
