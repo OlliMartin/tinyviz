@@ -1,4 +1,6 @@
 @using Plotly.NET
+@using TinyViz.Contracts.Model.ChartSpecification
+@using TinyViz.Contracts.Model.GraphDescriptors
 @using TinyViz.Renderer
 
 @inject IGraphRenderer graphRenderer
@@ -49,7 +51,8 @@
 
         try
         {
-            GenericChart chart = await chartBuilder.BuildAsync(value, CancellationToken.None);
+            ConfigurableGraphDescriptor graphDescriptor = new(new());
+            GenericChart chart = await chartBuilder.BuildAsync(graphDescriptor, value, CancellationToken.None);
             string nextPngValue = await graphRenderer.RenderAsync(chart, resolution, CancellationToken.None);
             updateValue(nextPngValue);
         }

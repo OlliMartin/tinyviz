@@ -1,10 +1,16 @@
 using Plotly.NET;
+using TinyViz.Contracts.Model.ChartSpecification;
+using TinyViz.Contracts.Model.GraphDescriptors;
 
 namespace TinyViz.Renderer.Builders;
 
-public class JsonChartBuilder : IChartBuilder
+public class ConfigurationChartBuilder : IChartBuilder<ConfigurableGraphDescriptor, ChartDefinition>
 {
-    public Task<GenericChart> BuildAsync(double? value, CancellationToken cancellationToken)
+    public Task<GenericChart> BuildAsync(
+        ConfigurableGraphDescriptor descriptor,
+        double? value,
+        CancellationToken cancellationToken
+    )
     {
         double max = 100;
 
@@ -14,7 +20,7 @@ public class JsonChartBuilder : IChartBuilder
         // axis: NO ticks or labels
         var axis = new Dictionary<string, object>
         {
-            { "range", new[] { 0, max } },
+            { "range", new[] { 0, max, } },
             { "tickwidth", 0 },
             { "tickcolor", "rgba(0,0,0,0)" },
             { "showticklabels", false },
@@ -29,10 +35,7 @@ public class JsonChartBuilder : IChartBuilder
 
         gauge["threshold"] = new Dictionary<string, object>
         {
-            {
-                "line",
-                new Dictionary<string, object> { { "color", "rgba(0,0,0,0)" }, { "width", 0 } }
-            },
+            { "line", new Dictionary<string, object> { { "color", "rgba(0,0,0,0)" }, { "width", 0 }, } },
             { "value", 0 }, // dummy
         };
 
@@ -53,9 +56,9 @@ public class JsonChartBuilder : IChartBuilder
         // color bands (steps)
         var steps = new[]
         {
-            new Dictionary<string, object> { { "range", new[] { 0, 70 } }, { "color", "#2ECC71" } },
-            new Dictionary<string, object> { { "range", new[] { 70, 90 } }, { "color", "#F1C40F" } },
-            new Dictionary<string, object> { { "range", new[] { 90, 100 } }, { "color", "#E74C3C" } },
+            new Dictionary<string, object> { { "range", new[] { 0, 70, } }, { "color", "#2ECC71" }, },
+            new Dictionary<string, object> { { "range", new[] { 70, 90, } }, { "color", "#F1C40F" }, },
+            new Dictionary<string, object> { { "range", new[] { 90, 100, } }, { "color", "#E74C3C" }, },
         };
 
         gauge["steps"] = steps;
@@ -71,16 +74,13 @@ public class JsonChartBuilder : IChartBuilder
         var title = new Dictionary<string, object>
         {
             { "text", "CPU Busy" },
-            {
-                "font",
-                new Dictionary<string, object> { { "size", 20 }, { "color", "#ffffff" } }
-            },
+            { "font", new Dictionary<string, object> { { "size", 20 }, { "color", "#ffffff" }, } },
         };
 
         gaugeTrace.SetValue("title", title);
 
         // domain (you can tweak y to adjust how “deep” the arc looks)
-        var domain = new Dictionary<string, object> { { "x", new[] { 0.0, 1.0 } }, { "y", new[] { 0.2, 1.0 } } };
+        var domain = new Dictionary<string, object> { { "x", new[] { 0.0, 1.0, } }, { "y", new[] { 0.2, 1.0, } }, };
         gaugeTrace.SetValue("domain", domain);
 
         // main layout
@@ -89,23 +89,25 @@ public class JsonChartBuilder : IChartBuilder
         layout.SetValue("plot_bgcolor", "#000000");
         layout.SetValue("showlegend", value: false);
 
-        layout.SetValue("font", new Dictionary<string, object> { { "color", "#ffffff" }, { "family", "Inter, Arial, sans-serif" } });
+        layout.SetValue(
+            "font",
+            new Dictionary<string, object> { { "color", "#ffffff" }, { "family", "Inter, Arial, sans-serif" }, }
+        );
 
         // margins
         const double marginVal = 3;
 
         var margin = new Dictionary<string, double>
         {
-            { "l", marginVal },
-            { "r", marginVal },
-            { "t", marginVal + 25 },
-            { "b", 0 },
+            { "l", marginVal }, { "r", marginVal }, { "t", marginVal + 25 }, { "b", 0 },
         };
 
         layout.SetValue("margin", margin);
 
         // central label (N/A or value)
-        var displayText = value.HasValue ? $"{value.Value:F0}%" : "N/A";
+        var displayText = value.HasValue
+            ? $"{value.Value:F0}%"
+            : "N/A";
 
         var annotation = new Dictionary<string, object>
         {
@@ -115,13 +117,10 @@ public class JsonChartBuilder : IChartBuilder
             { "yref", "paper" },
             { "text", displayText },
             { "showarrow", false },
-            {
-                "font",
-                new Dictionary<string, object> { { "size", 30 }, { "color", "#ffffff" } }
-            },
+            { "font", new Dictionary<string, object> { { "size", 30 }, { "color", "#ffffff" }, } },
         };
 
-        layout.SetValue("annotations", new[] { annotation });
+        layout.SetValue("annotations", new[] { annotation, });
 
         var chart = GenericChart.ofTraceObject(useDefaults: false, gaugeTrace).WithLayout(layout);
 
