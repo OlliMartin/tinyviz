@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using TinyViz.Contracts;
+using TinyViz.Contracts.Model.Exceptions;
 using TinyViz.Contracts.Model.GraphDescriptors;
 using TinyViz.Serialization;
 
@@ -27,6 +28,35 @@ public class YamlToConfigurationConverterTests
         var casted = result.ShouldBeOfType<ConfigurableGraphDescriptor>();
 
         casted.Typed.Chart.Trace.ShouldSatisfyAllConditions(td => td.TypeName.ShouldBe("indicator"));
+    }
+
+    [Theory]
+    [InlineData("abc")]
+    [InlineData(
+        """
+            chart:
+              trace:
+                typeNameMissing: yes
+            """,
+        "The TypeName field is required."
+    )]
+    public async Task ShouldThrowOnInvalidYaml(string invalidYaml, string? innerMessage = null)
+    {
+        var gd = FromYaml(invalidYaml);
+
+        var act = () => _testSubject.ConvertAsync(gd, _ct);
+
+        var ex = await act.ShouldThrowAsync<ConverterException>();
+
+        if (innerMessage is not null)
+        {
+            ex.InnerException.ShouldNotBeNull();
+            ex.InnerException.Message.ShouldBe(innerMessage);
+        }
+        else
+        {
+            ex.Message.ShouldBe("Could not deserialize provided YAML.");
+        }
     }
 
     private IGraphDescriptor FromYaml([StringSyntax("yaml")] string yaml) => new YamlGraphDescriptor(yaml);
