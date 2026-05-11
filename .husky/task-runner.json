@@ -11,6 +11,8 @@
       ],
       "include": [
         "**/*.cs",
+        "**/*.razor",
+        "**/*.razor.css",
         "**/*.props",
         "**/*.csproj",
         "**/*.targets"
