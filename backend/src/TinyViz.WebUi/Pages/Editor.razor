@@ -30,6 +30,40 @@
 
 @code {
 
+    private string ScatterTemplate = """
+                                     chart:
+                                       trace:
+                                         typeName: scatter
+                                         x:
+                                           - 1
+                                           - 1.5
+                                           - 2
+                                           - 3
+                                         y:
+                                           - 10
+                                           - 10
+                                           - 10
+                                           - 18
+                                     layout:
+                                       paper_bgcolor: '#000000'
+                                       plot_bgcolor: '#000000'
+                                       font:
+                                         color: '#ffffff'
+                                         family: 'Inter, Arial, sans-serif'
+                                       title:
+                                         yanchor: top
+                                         text: 'Temp (°C)'
+                                         font:
+                                           size: 20
+                                         pad:
+                                           t: 10
+                                       margin:
+                                         l: 20
+                                         r: 20
+                                         t: 30
+                                         b: 20
+                                     """;
+
     public string ImageYaml { get; set; }
         = """
           chart:
@@ -58,9 +92,6 @@
                     color: '#F1C40F'
                   - range: [90, 100]
                     color: '#E74C3C'
-              domain:
-                x: [0.0, 1.0]
-                y: [0.0, 1.0]
           layout:
             paper_bgcolor: '#000000'
             font:
