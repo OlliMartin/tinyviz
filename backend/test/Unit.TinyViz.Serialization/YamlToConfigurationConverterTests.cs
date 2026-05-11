@@ -10,8 +10,50 @@ namespace Unit.TinyViz.Serialization;
 [TestSubject(typeof(YamlToConfigurationConverter))]
 public class YamlToConfigurationConverterTests
 {
+    private const string TypeName = "indicator";
+
     private static readonly CancellationToken _ct = TestContext.Current.CancellationToken;
     private readonly IGraphConverter _testSubject = new YamlToConfigurationConverter();
+
+    [Fact]
+    public async Task Layout_ShouldDeserializeAdditionalProperties()
+    {
+        const string mode = "gauge";
+
+        var gd = FromYaml(
+            $"""
+            chart:
+              trace:
+                typeName: {TypeName}
+            layout:
+              margin:
+                l: 3
+                r: 3
+                t: 28
+                b: 0
+            """
+        );
+
+        var result = await _testSubject.ConvertAsync(gd, _ct);
+
+        var casted = result.ShouldBeOfType<ConfigurableGraphDescriptor>();
+
+        var expectedLayout = new LayoutDescriptor
+        {
+            ExtensionData =
+            {
+                ["margin"] = new Dictionary<string, object?>
+                {
+                    ["l"] = 3,
+                    ["r"] = 3,
+                    ["t"] = 28,
+                    ["b"] = 0,
+                },
+            },
+        };
+
+        casted.Typed.Layout.ShouldBe(expectedLayout, LayoutDescriptor.JsonComparer);
+    }
 
     [Fact]
     public async Task SanityCheck()
@@ -32,16 +74,15 @@ public class YamlToConfigurationConverterTests
     }
 
     [Fact]
-    public async Task ShouldDeserializeAdditionalProperties()
+    public async Task Trace_ShouldDeserializeAdditionalProperties()
     {
-        const string typeName = "indicator";
         const string mode = "gauge";
 
         var gd = FromYaml(
             $"""
             chart:
               trace:
-                typeName: {typeName}
+                typeName: {TypeName}
                 mode: {mode}
             """
         );
@@ -52,7 +93,7 @@ public class YamlToConfigurationConverterTests
 
         var expectedTrace = new TraceDescriptor
         {
-            TypeName = typeName,
+            TypeName = TypeName,
             ExtensionData = new() { ["mode"] = mode },
         };
 
@@ -60,16 +101,15 @@ public class YamlToConfigurationConverterTests
     }
 
     [Fact]
-    public async Task ShouldDeserializeAdditionalPropertiesNested()
+    public async Task Trace_ShouldDeserializeAdditionalPropertiesNested()
     {
-        const string typeName = "indicator";
         const string mode = "gauge";
 
         var gd = FromYaml(
             $"""
             chart:
               trace:
-                typeName: {typeName}
+                typeName: {TypeName}
                 mode: {mode}
                 title:
                   text: 'CPU Busy'
@@ -84,7 +124,7 @@ public class YamlToConfigurationConverterTests
 
         var expectedTrace = new TraceDescriptor
         {
-            TypeName = typeName,
+            TypeName = TypeName,
             ExtensionData = new() { ["mode"] = mode, ["title"] = titleData },
         };
 
@@ -92,16 +132,15 @@ public class YamlToConfigurationConverterTests
     }
 
     [Fact]
-    public async Task ShouldDeserializeAdditionalPropertiesNestedList()
+    public async Task Trace_ShouldDeserializeAdditionalPropertiesNestedList()
     {
-        const string typeName = "indicator";
         const string mode = "gauge";
 
         var gd = FromYaml(
             $"""
             chart:
               trace:
-                typeName: {typeName}
+                typeName: {TypeName}
                 mode: {mode}
                 domain:
                   x:
@@ -121,7 +160,7 @@ public class YamlToConfigurationConverterTests
 
         var expectedTrace = new TraceDescriptor
         {
-            TypeName = typeName,
+            TypeName = TypeName,
             ExtensionData = new() { ["mode"] = mode, ["domain"] = domainData },
         };
 

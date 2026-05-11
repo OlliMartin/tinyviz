@@ -12,7 +12,7 @@ public interface IChartBuilder<in TGraphDescriptor, TGraphType> : IChartBuilder
     {
         if (graphDescriptor is not TGraphDescriptor typedGraphDescriptor)
         {
-            throw new InvalidOperationException("");
+            throw new InvalidOperationException(""); // TODO
         }
 
         return BuildAsync(typedGraphDescriptor, value, cancellationToken);

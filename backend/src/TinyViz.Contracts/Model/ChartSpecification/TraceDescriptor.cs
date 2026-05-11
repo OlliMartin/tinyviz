@@ -14,20 +14,10 @@ public record TraceDescriptor : IHasExtensionData<TraceDescriptor>
     [JsonExtensionData]
     public Dictionary<string, object?> ExtensionData { get; init; } = new();
 
-    public TraceDescriptor ToPrimitiveExtensionData()
-    {
-        var result = new Dictionary<string, object?>(ExtensionData.Count);
+    public TraceDescriptor WithExtensionData(Dictionary<string, object?> extensionData) => this with { ExtensionData = extensionData };
 
-        foreach (var (key, value) in ExtensionData)
-        {
-            result[key] = JsonHelper.UnwrapValue(value);
-        }
-
-        return this with
-        {
-            ExtensionData = result,
-        };
-    }
+    public Dictionary<string, object?> GetPrimitiveExtensionData() =>
+        ((IHasExtensionData<TraceDescriptor>)this).ToPrimitiveExtensionData().ExtensionData;
 
     private class TraceDescriptorEqualityComparer : ExtensionDataComparerBase<TraceDescriptor>
     {

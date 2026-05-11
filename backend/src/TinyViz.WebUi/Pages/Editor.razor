@@ -33,15 +33,56 @@
     public string ImageYaml { get; set; }
         = """
           chart:
+            trace:
+              typeName: indicator
+              mode: gauge
+              value: '42'
+              title:
+                text: 'CPU Busy'
+                font:
+                  size: 20
+                  color: '#ffffff'
+              gauge:
+                axis:
+                  range:
+                    - 0
+                    - 100
+                bar:
+                  color: '#ffffff'
+                  thickness: 0.3
+                shape: angular
+                steps:
+                  - range: [0, 70]
+                    color: '#2ECC71'
+                  - range: [70, 90]
+                    color: '#F1C40F'
+                  - range: [90, 100]
+                    color: '#E74C3C'
+              domain:
+                x: [0.0, 1.0]
+                y: [0.0, 1.0]
           layout:
+            paper_bgcolor: '#000000'
+            font:
+              color: '#ffffff'
+              family: 'Inter, Arial, sans-serif'
             margin:
               l: 3
               r: 3
-              t: 28
+              t: 40
               b: 0
             annotations:
-              x: 0.5
-              y: 0.3
+              - x: 0.35
+                y: 0.25
+                xref: paper
+                yref: paper
+                xanchor: left
+                yanchor: top
+                text: '42%'
+                showarrow: true
+                font:
+                  size: 30
+                  color: '#ffffff'
           """;
 
     private Task OnYamlUpdated(string? arg)
