@@ -1,9 +1,43 @@
-<div>
+@using System.Text.Json
+@using TinyViz.Contracts.Model.ChartSpecification
+@using TinyViz.Contracts.Model.GraphDescriptors
+@using TinyViz.Serialization
+@inject YamlToConfigurationConverter converter
+
+<div class="json-preview">
     <h4>JSON Preview</h4>
-    <CodeEditor Value="@ImageYaml" Language="yaml" ShowLineNo="true" IsReadonly="true"/>
+    <CodeEditor Value="@ChartDefinitionJson" Language="yaml" ShowLineNo="true" IsReadonly="true"/>
 </div>
 
 @code
 {
-    [Parameter] public string ImageYaml { get; set; } = string.Empty;
+    private static readonly JsonSerializerOptions jsonOptions = new()
+    {
+        WriteIndented = true,
+    };
+
+    [Parameter] public string? ImageYaml { get; set; } = string.Empty;
+
+    private string? ChartDefinitionJson { get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (ImageYaml is null)
+        {
+            return;
+        }
+
+        try
+        {
+            YamlGraphDescriptor yamlDescriptor = new(ImageYaml);
+            IGraphDescriptor<ChartDefinition> converted = await converter.ConvertAsync(yamlDescriptor, CancellationToken.None);
+
+            ChartDefinitionJson = JsonSerializer.Serialize(converted.Typed, jsonOptions);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Replace UI Component to show error?
+            ChartDefinitionJson = "Failed to generate Chart JSON. Is this YAML invalid?";
+        }
+    }
 }

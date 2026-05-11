@@ -8,6 +8,11 @@ public static class DependencyInjectionExtensions
     extension(IServiceCollection serviceCollection)
     {
         public IServiceCollection AddConverters() =>
-            serviceCollection.AddKeyedSingleton<IGraphConverter, YamlToConfigurationConverter>(DiConstants.Keyed.YamlToConfigConverter);
+            serviceCollection
+                .AddSingleton<YamlToConfigurationConverter>()
+                .AddKeyedSingleton<IGraphConverter, YamlToConfigurationConverter>(
+                    DiConstants.Keyed.YamlToConfigConverter,
+                    (sp, _) => sp.GetRequiredService<YamlToConfigurationConverter>()
+                );
     }
 }

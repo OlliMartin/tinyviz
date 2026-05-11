@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TinyViz.Renderer\TinyViz.Renderer.csproj" />
+    <ProjectReference Include="..\TinyViz.Serialization\TinyViz.Serialization.csproj" />
   </ItemGroup>
 </Project>

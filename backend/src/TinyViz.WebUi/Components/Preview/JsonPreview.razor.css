@@ -1,0 +1,9 @@
+.json-preview {
+  height: 100%;
+}
+
+.json-preview ::deep .code-editor,
+.json-preview ::deep .code-editor-body {
+  height: 100%;
+  width: 100%;
+}
