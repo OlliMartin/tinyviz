@@ -1,4 +1,5 @@
 using Plotly.NET;
+using TinyViz.Contracts.Model;
 using TinyViz.Contracts.Model.ChartSpecification;
 using TinyViz.Contracts.Model.GraphDescriptors;
 
@@ -6,7 +7,11 @@ namespace TinyViz.Renderer.Builders;
 
 public class ConfigurationChartBuilder : IChartBuilder<ConfigurableGraphDescriptor, ChartDefinition>
 {
-    public Task<GenericChart> BuildAsync(ConfigurableGraphDescriptor descriptor, double? value, CancellationToken cancellationToken)
+    public Task<GenericChart> BuildAsync(
+        ConfigurableGraphDescriptor descriptor,
+        RangeQueryResult rangeQueryResult,
+        CancellationToken cancellationToken
+    )
     {
         var chartDefinition = descriptor.ChartDefinition;
         var trace = new Trace(chartDefinition.Chart.Trace.TypeName);

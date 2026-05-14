@@ -8,7 +8,8 @@ public class DefaultRendererFacade(
     IEnumerable<IChartBuilder> chartBuilders,
     [FromKeyedServices(DiConstants.Keyed.PngRenderer)] IGraphRenderer pngGraphRenderer,
     /* TODO: Workaround -> Cleanup */
-    [FromKeyedServices("YamlToConfigConverter")] IGraphConverter graphConverter
+    [FromKeyedServices("YamlToConfigConverter")] IGraphConverter graphConverter,
+    IDataSource dataSource // TODO: There should be multiple datasources (potentially with the same type) resolved by config.
 ) : IRendererFacade
 {
     public async Task<string> RenderPngAsync(IGraphDescriptor graphRepresentation, CancellationToken cancellationToken = default)
@@ -31,7 +32,9 @@ public class DefaultRendererFacade(
 
         var builder = responsibleBuilders[index: 0];
 
-        var chart = await builder.BuildAsync(configurableGraph, value: 0, cancellationToken);
+        var queryResult = await dataSource.QueryRangeAsync(configurableGraph.Query, cancellationToken);
+
+        var chart = await builder.BuildAsync(configurableGraph, queryResult, cancellationToken);
 
         return await pngGraphRenderer.RenderAsync(chart, dimensions: 144, cancellationToken);
     }

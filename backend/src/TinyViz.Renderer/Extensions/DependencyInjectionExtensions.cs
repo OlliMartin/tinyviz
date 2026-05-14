@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using TinyViz.Contracts;
 using TinyViz.Renderer.Builders;
 using TinyViz.Renderer.Internal;
 using TinyViz.Renderer.Renderers;

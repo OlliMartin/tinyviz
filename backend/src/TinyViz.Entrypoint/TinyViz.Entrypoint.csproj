@@ -4,6 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TinyViz.DataSource.Prometheus\TinyViz.DataSource.Prometheus.csproj" />
     <ProjectReference Include="..\TinyViz.Renderer\TinyViz.Renderer.csproj" />
     <ProjectReference Include="..\TinyViz.RestApi\TinyViz.RestApi.csproj" />
     <ProjectReference Include="..\TinyViz.Serialization\TinyViz.Serialization.csproj" />

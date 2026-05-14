@@ -32,6 +32,10 @@
 
     private string ScatterTemplate = """
                                      chart:
+                                       data:
+                                         dataSourceName: prom
+                                         query: |
+                                           node_hwmon_temp_celsius{ chip="thermal_thermal_zone0" }
                                        trace:
                                          typeName: scatter
                                          x:
@@ -67,6 +71,10 @@
     public string ImageYaml { get; set; }
         = """
           chart:
+            data:
+              dataSourceName: prom
+              query: |
+                100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle", instance="127.0.0.1:9100"}[5m])))
             trace:
               typeName: indicator
               mode: gauge
