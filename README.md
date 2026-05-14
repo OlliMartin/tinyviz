@@ -80,3 +80,39 @@ The `Yaml->JSON->Plotly.NET(->Plotly-js)` chaining decision is taken to fulfill 
   deserialization out of the box, the JSON is included in the chain.
     - The agentic extension is the reason why `plotly.js` configuration must be reused: The model-context from the
       official repo can be reused.
+
+## Templating Engine
+
+As mentioned before, the graphs/charts are configured mainly by using `Yaml`, which works perfectly fine for static
+configuration, such as layout. However, this has two major downsides:
+
+- It is not possible to share static configuration like a color scheme across graphs
+- There is no way to include the actual data points retrieved from data sources ad-hoc. Only images with static data can
+  be generated.
+
+The templating engine aims to solve this issue by providing mechanisms to:
+
+- Include other static configuration in the graph configuration
+    - Said configuration must itself be able to utilize templating
+- Access the data source context (and result) from the graph configuration
+    - There is no strict format for data source results, for example it could be a Prometheus `Range` or `Instant`
+      query. The templating engine must account for this.
+
+### Design
+
+The templating engine operates mainly on the JSON-deserialized graph model,
+i.e. [ConfigurableGraphDescriptor](backend/src/TinyViz.Contracts/Model/GraphDescriptors/ConfigurableGraphDescriptor.cs).
+However, this alone would not allow for sharing "code snippets". More specifically, the templating engine operates on
+`Dictionary<string, object?>`, i.e. all JSON extension data.
+
+Models that define required properties _should_ include these properties in the property accessor exposed to the
+templating engine.
+
+The following operations are required:
+
+- "Spreading" a template into the graph model
+    - It must be possible to reference and spread an entire template into the graph being rendered. This is important
+      for graph layouts, since these commonly shared at least for graphs of the same type.
+- Selecting one or more data points and potentially the corresponding timestamp (→ time conversion?)
+
+
