@@ -10,10 +10,10 @@ multiChild:
     Children: [
       {
         Value: true,
-        Name: singleChild
+        Key: singleChild
       },
       {
-        Name: multiChild,
+        Key: multiChild,
         Children: [
           {
             Value: true

@@ -1,6 +1,3 @@
 namespace TinyViz.Templating.Internal.Nodes;
 
-public record ExtendsNode : GraphNode
-{
-    public override string Type => nameof(ExtendsNode);
-}
+public record ExtendsNode(string Namespace, string Name) : GraphNode { }

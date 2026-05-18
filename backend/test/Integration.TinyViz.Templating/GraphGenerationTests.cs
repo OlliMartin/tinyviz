@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Argon;
 using Integration.TinyViz.Templating.Framework;
 using TinyViz.Templating.Internal;
@@ -14,7 +13,6 @@ public class GraphGenerationTests(TemplatingTestRuntime templatingTestRuntime)
             var settings = new VerifySettings();
 
             settings.IgnoreMember(typeof(GraphNode), nameof(GraphNode.Parent));
-            settings.IgnoreMember<GraphNode>(gn => gn.Type);
 
             settings.UseDirectory("Snapshots");
 
@@ -58,7 +56,22 @@ public class GraphGenerationTests(TemplatingTestRuntime templatingTestRuntime)
     }
 
     [Fact]
-    [Experimental("VerifyDanglingSnapshots")]
+    public async Task ExtendsKeyword_InList_CreatesTypedExtendsNode()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            list:
+              - $extends: "Static.TopLevelTemplate"
+                test: yes
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
     public async Task ExtendsKeyword_Nested_CreatesTypedExtendsNode()
     {
         var (target, yaml) = FromYaml(

@@ -8,15 +8,13 @@ nested:
   Graph: {
     Children: [
       {
-        Name: nested,
+        Key: nested,
+        Namespace: Static,
+        Name: TopLevelTemplate,
         Children: [
           {
-            Value: Static.TopLevelTemplate,
-            Name: $extends
-          },
-          {
             Value: yes,
-            Name: test
+            Key: test
           }
         ]
       }

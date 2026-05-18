@@ -5,14 +5,12 @@ $extends: "Static.TopLevelTemplate"
 test: yes
 ################,
   Graph: {
+    Namespace: Static,
+    Name: TopLevelTemplate,
     Children: [
       {
-        Value: Static.TopLevelTemplate,
-        Name: $extends
-      },
-      {
         Value: yes,
-        Name: test
+        Key: test
       }
     ]
   }

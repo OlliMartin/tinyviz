@@ -30,7 +30,7 @@ public class NamedNodeFactory : INodeFactory
             throw new InvalidOperationException(); // TODO
         }
 
-        var result = new NamedNode(namedNodeKey);
+        var result = new KeyedNode(namedNodeKey);
 
         var childNode = childrenFactory(result, item, arg3: null);
 

@@ -9,15 +9,15 @@ string: 'Hello World'
     Children: [
       {
         Value: true,
-        Name: bool
+        Key: bool
       },
       {
         Value: 1337,
-        Name: number
+        Key: number
       },
       {
         Value: Hello World,
-        Name: string
+        Key: string
       }
     ]
   }

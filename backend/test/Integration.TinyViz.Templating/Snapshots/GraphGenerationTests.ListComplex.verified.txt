@@ -12,17 +12,17 @@ list:
   Graph: {
     Children: [
       {
-        Name: list,
+        Key: list,
         Children: [
           {
             Children: [
               {
                 Value: bool,
-                Name: key
+                Key: key
               },
               {
                 Value: true,
-                Name: value
+                Key: value
               }
             ]
           },
@@ -30,11 +30,11 @@ list:
             Children: [
               {
                 Value: number,
-                Name: key
+                Key: key
               },
               {
                 Value: 1337,
-                Name: value
+                Key: value
               }
             ]
           },
@@ -42,11 +42,11 @@ list:
             Children: [
               {
                 Value: string,
-                Name: key
+                Key: key
               },
               {
                 Value: Hello World,
-                Name: value
+                Key: value
               }
             ]
           }

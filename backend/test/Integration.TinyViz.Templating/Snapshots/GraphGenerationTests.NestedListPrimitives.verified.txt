@@ -10,10 +10,10 @@ nested:
   Graph: {
     Children: [
       {
-        Name: nested,
+        Key: nested,
         Children: [
           {
-            Name: list,
+            Key: list,
             Children: [
               {
                 Value: true

@@ -9,7 +9,7 @@ list:
   Graph: {
     Children: [
       {
-        Name: list,
+        Key: list,
         Children: [
           {
             Value: true

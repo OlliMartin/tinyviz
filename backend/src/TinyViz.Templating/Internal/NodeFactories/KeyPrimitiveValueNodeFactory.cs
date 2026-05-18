@@ -4,7 +4,7 @@ namespace TinyViz.Templating.Internal.NodeFactories;
 
 public class KeyPrimitiveValueNodeFactory : INodeFactory
 {
-    public int Priority => 15;
+    public int Priority => 20;
 
     public bool Handles(object? item, object? context = null) => context is string && TypeUtils.IsPrimitive(item);
 
@@ -29,7 +29,7 @@ public class KeyPrimitiveValueNodeFactory : INodeFactory
             throw new InvalidOperationException(); // TODO
         }
 
-        var result = new NamedPrimitiveNode(namedNodeKey, item);
+        var result = new KeyedPrimitiveNode(namedNodeKey, item);
 
         return result;
     }
