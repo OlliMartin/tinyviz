@@ -4,7 +4,7 @@ public record KeyedNode(string Key) : GraphNode, IKeyedNode
 {
     public override void SerializeInto(Dictionary<string, object?> dictionary)
     {
-        if (Children?.Count is not > 1)
+        if (IsLeaf)
         {
             if (SerializationHint == SerializationHint.WasMap)
             {
@@ -18,9 +18,7 @@ public record KeyedNode(string Key) : GraphNode, IKeyedNode
             return;
         }
 
-        var allKeyed = Children.All(c => c is IKeyedNode);
-
-        if (allKeyed)
+        if (AllChildrenKeyed)
         {
             var nextDict = new Dictionary<string, object?>();
             dictionary.Add(Key, nextDict);
