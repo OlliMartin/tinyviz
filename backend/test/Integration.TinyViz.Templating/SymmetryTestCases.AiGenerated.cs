@@ -208,4 +208,67 @@ public partial class GraphDeserializationSerializationSymmetryTests
             );
         }
     }
+
+    public static IEnumerable<TheoryDataRow<string>> GeminiThinking
+    {
+        get
+        {
+            // Keys with complex string structures
+            yield return _(
+                yaml: """
+                key.with.dots: dotted value
+                key with spaces: spaced value
+                key/with/slashes: slashed value
+                nested.key[0]: expression-like value
+                """
+            );
+
+            // --- 64-bit Integer Boundaries & Scientific Notation ---
+            // Verifies that large integers don't truncate or overflow into double/decimal unexpectedly.
+
+            yield return _("int64Max: 9223372036854775807");
+            yield return _("int64Min: -9223372036854775808");
+
+            // --- YAML Float Special Values ---
+            // IEEE 754 special values supported by the YAML specification.
+
+            yield return _("infinity: .inf");
+            yield return _("negativeInfinity: -.inf");
+            yield return _("notANumber: .nan");
+
+            // --- Timestamps and Dates ---
+            // Depending on the YAML deserializer configuration, these might map to DateTime or strings.
+            // Symmetry must hold true regardless of the target primitive mapping.
+
+            yield return _("dateOnly: 2026-05-18");
+            yield return _("dateTimeIso: 2026-05-18T22:00:00Z");
+
+            // --- Deeply Nested Complex/Empty Structures ---
+            // Ensures edge cases inside lists preserve type layout without defaulting to nulls or collapsing.
+
+            // Deeply nested empty map structure
+            yield return _(
+                yaml: """
+                deepHierarchy:
+                  level1:
+                    level2:
+                      level3: {}
+                """
+            );
+
+            // Array of homogeneous maps (classic matrix configuration data)
+            yield return _(
+                yaml: """
+                matrix:
+                  - id: 1
+                    roles:
+                      - admin
+                      - user
+                  - id: 2
+                    roles:
+                      - guest
+                """
+            );
+        }
+    }
 }
