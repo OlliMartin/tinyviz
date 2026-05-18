@@ -1,0 +1,25 @@
+﻿{
+  TestCaseInput:
+################
+nested:
+  $extends: "Static.TopLevelTemplate"
+  test: yes
+################,
+  Graph: {
+    Children: [
+      {
+        Name: nested,
+        Children: [
+          {
+            Value: Static.TopLevelTemplate,
+            Name: $extends
+          },
+          {
+            Value: yes,
+            Name: test
+          }
+        ]
+      }
+    ]
+  }
+}
