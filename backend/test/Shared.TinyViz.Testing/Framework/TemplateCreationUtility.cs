@@ -4,22 +4,22 @@ using TinyViz.Templating.TemplateProviders;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Unit.TinyViz.Templating.Framework;
+namespace Shared.TinyViz.Testing.Framework;
 
-internal static class TemplateCreationUtility
+public static class TemplateCreationUtility
 {
     private static readonly IDeserializer _kvpDeserializer = new DeserializerBuilder()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
         .Build();
 
-    internal static (ITemplate Template, string Yaml) FromYaml([StringSyntax("Yaml")] string yamlString)
+    public static (ITemplate Template, string Yaml) FromYaml([StringSyntax("Yaml")] string yamlString)
     {
         var templateContentFromYaml = _kvpDeserializer.Deserialize<Dictionary<string, object?>>(yamlString);
 
         return (new TestTemplate(templateContentFromYaml), yamlString);
     }
 
-    internal static StaticTemplateProvider SingleTemplateProvider([StringSyntax("Yaml")] string yamlString)
+    public static StaticTemplateProvider SingleTemplateProvider([StringSyntax("Yaml")] string yamlString)
     {
         var provider = _kvpDeserializer.Deserialize<Dictionary<string, object?>>(yamlString);
 
@@ -34,6 +34,6 @@ internal static class TemplateCreationUtility
         provider.Remove("$namespace");
         provider.Remove("$name");
 
-        return new(@namespace, [new TestTemplate(provider)]);
+        return new(@namespace, [new TestTemplate(provider),]);
     }
 }

@@ -25,6 +25,8 @@
     <Project Path="src/.playground/TinyViz.Playground.Console/TinyViz.Playground.Console.csproj" />
   </Folder>
   <Folder Name="/test/">
+    <Project Path="test/Integration.TinyViz.Templating/Integration.TinyViz.Templating.csproj" />
+    <Project Path="test/Shared.TinyViz.Testing/Shared.TinyViz.Testing.csproj" />
     <Project Path="test/Unit.TinyViz.Renderer/Unit.TinyViz.Renderer.csproj" />
     <Project Path="test/Unit.TinyViz.Serialization/Unit.TinyViz.Serialization.csproj" />
     <Project Path="test/Unit.TinyViz.Templating/Unit.TinyViz.Templating.csproj" />

@@ -1,6 +1,6 @@
 using TinyViz.Templating;
 
-namespace Unit.TinyViz.Templating.Framework;
+namespace Shared.TinyViz.Testing.Framework;
 
 public class TestTemplate(Dictionary<string, object?> content) : ITemplate
 {

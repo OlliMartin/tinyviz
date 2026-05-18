@@ -2,10 +2,10 @@ using Microsoft.Extensions.DependencyInjection;
 using TinyViz.Templating;
 using TinyViz.Templating.Extensions;
 
-namespace Unit.TinyViz.Templating.Framework;
+namespace Integration.TinyViz.Templating.Framework;
 
 [UsedImplicitly]
-public sealed class TestRuntime : IAsyncLifetime
+public sealed class TemplatingTestRuntime : IAsyncLifetime
 {
     private ServiceProvider? _serviceProvider;
 

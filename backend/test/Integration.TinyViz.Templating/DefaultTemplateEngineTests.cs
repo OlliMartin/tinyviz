@@ -1,11 +1,11 @@
+using Integration.TinyViz.Templating.Framework;
 using TinyViz.Templating;
 using TinyViz.Templating.Internal;
-using Unit.TinyViz.Templating.Framework;
 
-namespace Unit.TinyViz.Templating;
+namespace Integration.TinyViz.Templating;
 
 [TestSubject(typeof(DefaultTemplatingEngine))]
-public class DefaultTemplateEngineTests(TestRuntime testRuntime)
+public class DefaultTemplateEngineTests(TemplatingTestRuntime testRuntime)
 {
     private static readonly CancellationToken _ct = TestContext.Current.CancellationToken;
 
@@ -16,28 +16,28 @@ public class DefaultTemplateEngineTests(TestRuntime testRuntime)
     {
         var templateSource = SingleTemplateProvider(
             yamlString: """
-            $namespace: 'Static'
-            $name: 'TopLevelTemplate'
-            toplevel: 'Hello World!'
-            """
+                        $namespace: 'Static'
+                        $name: 'TopLevelTemplate'
+                        toplevel: 'Hello World!'
+                        """
         );
 
         // Reference by "Namespace.Name"
         var (target, _) = FromYaml(
             yamlString: """
-            $extends: "Static.TopLevelTemplate"
-            test: yes
-            """
+                        $extends: "Static.TopLevelTemplate"
+                        test: yes
+                        """
         );
 
-        var result = await TestSubject.RenderTemplateAsync([templateSource], target, _ct);
+        var result = await TestSubject.RenderTemplateAsync([templateSource,], target, _ct);
 
         // $name is skipped on purpose (even though plotly would not mind - I guess?)
         var expected = FromYaml(
             yamlString: """
-            toplevel: 'Hello World!'
-            test: yes
-            """
+                        toplevel: 'Hello World!'
+                        test: yes
+                        """
         );
 
         // result.ShouldBe(expected);
@@ -52,14 +52,14 @@ public class DefaultTemplateEngineTests(TestRuntime testRuntime)
 
         var target = FromYaml(
             yamlString: """
-            values: ${DataSource.Values}
-            """
+                        values: ${DataSource.Values}
+                        """
         );
 
         var expected = FromYaml(
             yamlString: """
-            values: [1337]
-            """
+                        values: [1337]
+                        """
         );
     }
 }

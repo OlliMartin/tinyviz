@@ -4,6 +4,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Integration.TinyViz.Templating" />
     <InternalsVisibleTo Include="Unit.TinyViz.Templating" />
   </ItemGroup>
 </Project>

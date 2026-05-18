@@ -1,10 +1,10 @@
 using Argon;
+using Integration.TinyViz.Templating.Framework;
 using TinyViz.Templating.Internal;
-using Unit.TinyViz.Templating.Framework;
 
-namespace Unit.TinyViz.Templating;
+namespace Integration.TinyViz.Templating;
 
-public class GraphGenerationTests(TestRuntime testRuntime)
+public class GraphGenerationTests(TemplatingTestRuntime templatingTestRuntime)
 {
     private static VerifySettings VerifySettings
     {
@@ -22,12 +22,12 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         get
         {
-            var result = testRuntime.TemplatingEngine as DefaultTemplatingEngine;
+            var result = templatingTestRuntime.TemplatingEngine as DefaultTemplatingEngine;
 
             if (result is null)
             {
                 Assert.Skip(
-                    $"{nameof(testRuntime.TemplatingEngine)} is not assignable to {nameof(DefaultTemplatingEngine)}. Cannot create graph."
+                    $"{nameof(templatingTestRuntime.TemplatingEngine)} is not assignable to {nameof(DefaultTemplatingEngine)}. Cannot create graph."
                 );
             }
 
@@ -43,9 +43,9 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            $extends: "Static.TopLevelTemplate"
-            test: yes
-            """
+                        $extends: "Static.TopLevelTemplate"
+                        test: yes
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -58,10 +58,10 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            bool: true
-            number: 1337
-            string: 'Hello World'
-            """
+                        bool: true
+                        number: 1337
+                        string: 'Hello World'
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -74,11 +74,11 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            nested:
-              bool: true
-              number: 1337
-              string: 'Hello World'
-            """
+                        nested:
+                          bool: true
+                          number: 1337
+                          string: 'Hello World'
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -91,11 +91,29 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            nested:
-              bool: true
-              4711: 1337
-              string: 'Hello World'
-            """
+                        nested:
+                          bool: true
+                          4711: 1337
+                          string: 'Hello World'
+                        """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task NestedListPrimitives()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+                        nested:
+                          list:
+                            - true
+                            - 1337
+                            - 'Hello World'
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -108,11 +126,11 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            list:
-              - true
-              - 1337
-              - 'Hello World'
-            """
+                        list:
+                          - true
+                          - 1337
+                          - 'Hello World'
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -125,14 +143,14 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            list:
-              - key: bool
-                value: true
-              - key: number
-                value: 1337
-              - key: string
-                value: 'Hello World'
-            """
+                        list:
+                          - key: bool
+                            value: true
+                          - key: number
+                            value: 1337
+                          - key: string
+                            value: 'Hello World'
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -145,11 +163,11 @@ public class GraphGenerationTests(TestRuntime testRuntime)
     {
         var (target, yaml) = FromYaml(
             yamlString: """
-            singleChild: true
-            multiChild:
-              - true
-              - false
-            """
+                        singleChild: true
+                        multiChild:
+                          - true
+                          - false
+                        """
         );
 
         var graph = TestSubject.CreateGraph(target);
@@ -162,6 +180,7 @@ public class GraphGenerationTests(TestRuntime testRuntime)
         private static readonly string Spacer = string.Join("", Enumerable.Range(start: 0, count: 16).Select(_ => "#"));
 
         [JsonProperty(Order = 0)]
-        public string TestCaseInput => $"{Environment.NewLine}{Spacer}{Environment.NewLine}{Yaml}{Environment.NewLine}{Spacer}";
+        public string TestCaseInput =>
+            $"{Environment.NewLine}{Spacer}{Environment.NewLine}{Yaml}{Environment.NewLine}{Spacer}";
     }
 }

@@ -15,7 +15,7 @@ public class KeyPrimitiveValueNodeFactory : INodeFactory
         object? context = null
     )
     {
-        var namedNodeKey = context as string;
+        var namedNodeKey = context?.ToString();
 
         if (namedNodeKey is null)
         {

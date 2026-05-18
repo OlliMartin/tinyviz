@@ -13,4 +13,8 @@
   <ItemGroup>
     <Using Static="true" Include="Shared.TinyViz.Testing.Framework.TemplateCreationUtility" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Snapshots\" />
+  </ItemGroup>
 </Project>
