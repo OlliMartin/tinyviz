@@ -11,7 +11,7 @@ public record GraphNode
     public SerializationHint SerializationHint { get; init; } = SerializationHint.WasMap;
 
     [MemberNotNullWhen(returnValue: false, nameof(Children))]
-    protected bool IsLeaf => Children?.Count is not > 1;
+    protected bool IsLeaf => Children?.Count is not >= 1;
 
     protected bool AllChildrenKeyed => IsLeaf is false && Children.All(c => c is IKeyedNode);
 

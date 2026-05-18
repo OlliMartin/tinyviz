@@ -5,9 +5,11 @@ using YamlDotNet.Serialization;
 
 namespace Integration.TinyViz.Templating;
 
-public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRuntime templatingTestRuntime)
+public partial class GraphDeserializationSerializationSymmetryTests(TemplatingTestRuntime templatingTestRuntime)
 {
-    private readonly ISerializer stringSerializer = new SerializerBuilder().WithIndentedSequences().Build();
+    private readonly ISerializer _stringSerializer = new SerializerBuilder()
+        .WithQuotingNecessaryStrings()
+        .WithIndentedSequences().Build();
 
     private DefaultTemplatingEngine TestSubject
     {
@@ -43,35 +45,60 @@ public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRun
 
             yield return _(
                 yaml: """
-                listBool:
-                  - true
-                  - false
-                """
+                      listBool:
+                        - true
+                        - false
+                      """
             );
 
             yield return _(
                 yaml: """
-                listComplex:
-                  - key: Key1
-                    value: Value1
-                  - key: Key2
-                    value: Value2
-                """
+                      listComplex:
+                        - key: Key1
+                          value: Value1
+                        - key: Key2
+                          value: Value2
+                      """
             );
 
             yield return _(
                 yaml: """
-                listNumber:
-                  - 1337
-                  - 4711
-                  - 6969
-                """
+                      listNumber:
+                        - 1337
+                        - 4711
+                        - 6969
+                      """
+            );
+
+            yield return _(
+                yaml: """
+                      mixedGraph:
+                        scalar: Value
+                        emptyObject: {}
+                        emptyList: []
+                        listOfObjects:
+                          - name: Item1
+                            enabled: true
+                          - name: Item2
+                            enabled: false
+                      """
+            );
+
+            yield return _(
+                yaml: """
+                      yamlSensitiveStrings:
+                        colon: 'key: value'
+                        hash: 'value # not a comment'
+                        brackets: '[a, b]'
+                        spaces: "  padded  "
+                      """
             );
         }
     }
 
     [Theory]
     [MemberData(nameof(EquivalencyTestCases))]
+    [MemberData(nameof(Sonnet47))]
     public void EquivalencyTableTests(string testCaseYaml)
     {
         var (target, yaml) = FromYaml(testCaseYaml);
@@ -80,7 +107,7 @@ public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRun
         var targetDictionary = new Dictionary<string, object?>();
         deserializedGraph.SerializeInto(targetDictionary);
 
-        var serializedGraph = stringSerializer.Serialize(targetDictionary);
+        var serializedGraph = _stringSerializer.Serialize(targetDictionary);
 
         serializedGraph.Trim().ShouldBe(yaml, StringCompareShould.IgnoreLineEndings);
     }

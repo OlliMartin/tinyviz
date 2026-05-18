@@ -9,6 +9,7 @@ namespace Shared.TinyViz.Testing.Framework;
 public static class TemplateCreationUtility
 {
     private static readonly IDeserializer _kvpDeserializer = new DeserializerBuilder()
+        .WithAttemptingUnquotedStringTypeDeserialization()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
         .Build();
 
@@ -34,6 +35,6 @@ public static class TemplateCreationUtility
         provider.Remove("$namespace");
         provider.Remove("$name");
 
-        return new(@namespace, [new TestTemplate(provider),]);
+        return new(@namespace, [new TestTemplate(provider)]);
     }
 }
