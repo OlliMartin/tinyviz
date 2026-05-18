@@ -13,6 +13,7 @@ public class GraphGenerationTests(TemplatingTestRuntime templatingTestRuntime)
             var settings = new VerifySettings();
 
             settings.IgnoreMember(typeof(GraphNode), nameof(GraphNode.Parent));
+            settings.IgnoreMember(typeof(GraphNode), nameof(GraphNode.SerializationHint));
 
             settings.UseDirectory("Snapshots");
 
