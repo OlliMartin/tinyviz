@@ -1,0 +1,28 @@
+﻿{
+  TestCaseInput:
+################
+singleChild: true
+multiChild:
+  - true
+  - false
+################,
+  Graph: {
+    Children: [
+      {
+        Value: true,
+        Name: singleChild
+      },
+      {
+        Name: multiChild,
+        Children: [
+          {
+            Value: true
+          },
+          {
+            Value: false
+          }
+        ]
+      }
+    ]
+  }
+}

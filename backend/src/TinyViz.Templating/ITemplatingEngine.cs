@@ -2,10 +2,10 @@ namespace TinyViz.Templating;
 
 public interface ITemplatingEngine
 {
-    Task<TTemplatable> RenderTemplateAsync<TTemplatable>(
+    Task<TTemplate> RenderTemplateAsync<TTemplate>(
         IEnumerable<ITemplateProvider> templateProviders,
-        TTemplatable templatable,
+        TTemplate templatable,
         CancellationToken cancellationToken = default
     )
-        where TTemplatable : ITemplatable;
+        where TTemplate : ITemplate;
 }

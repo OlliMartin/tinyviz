@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <InternalsVisibleTo Include="Unit.TinyViz.Templating" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
+    <InternalsVisibleTo Include="Unit.TinyViz.Templating" />
   </ItemGroup>
 </Project>

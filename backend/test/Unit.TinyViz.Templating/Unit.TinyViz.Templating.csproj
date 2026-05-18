@@ -1,9 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Verify.XunitV3" />
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TinyViz.Templating\TinyViz.Templating.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Static="true" Include="Unit.TinyViz.Templating.Framework.TemplateCreationUtility" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Snapshots\" />
   </ItemGroup>
 </Project>

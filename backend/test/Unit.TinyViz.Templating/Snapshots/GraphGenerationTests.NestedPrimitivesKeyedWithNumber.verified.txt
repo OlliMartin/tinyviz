@@ -1,0 +1,30 @@
+﻿{
+  TestCaseInput:
+################
+nested:
+  bool: true
+  4711: 1337
+  string: 'Hello World'
+################,
+  Graph: {
+    Children: [
+      {
+        Name: nested,
+        Children: [
+          {
+            Value: true,
+            Name: bool
+          },
+          {
+            Value: 1337,
+            Name: 4711
+          },
+          {
+            Value: Hello World,
+            Name: string
+          }
+        ]
+      }
+    ]
+  }
+}

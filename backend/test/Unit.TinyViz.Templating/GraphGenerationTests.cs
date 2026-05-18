@@ -1,0 +1,167 @@
+using Argon;
+using TinyViz.Templating.Internal;
+using Unit.TinyViz.Templating.Framework;
+
+namespace Unit.TinyViz.Templating;
+
+public class GraphGenerationTests(TestRuntime testRuntime)
+{
+    private static VerifySettings VerifySettings
+    {
+        get
+        {
+            var settings = new VerifySettings();
+            settings.IgnoreMember(typeof(GraphNode), nameof(GraphNode.Parent));
+            settings.UseDirectory("Snapshots");
+
+            return settings;
+        }
+    }
+
+    private DefaultTemplatingEngine TestSubject
+    {
+        get
+        {
+            var result = testRuntime.TemplatingEngine as DefaultTemplatingEngine;
+
+            if (result is null)
+            {
+                Assert.Skip(
+                    $"{nameof(testRuntime.TemplatingEngine)} is not assignable to {nameof(DefaultTemplatingEngine)}. Cannot create graph."
+                );
+            }
+
+            return result;
+        }
+    }
+
+    [Fact]
+    public Task VerifyVerifySettings() => VerifyChecks.Run();
+
+    [Fact]
+    public async Task SanityCheck()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            $extends: "Static.TopLevelTemplate"
+            test: yes
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task TopLevelPrimitives()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            bool: true
+            number: 1337
+            string: 'Hello World'
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task NestedPrimitives()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            nested:
+              bool: true
+              number: 1337
+              string: 'Hello World'
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task NestedPrimitivesKeyedWithNumber()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            nested:
+              bool: true
+              4711: 1337
+              string: 'Hello World'
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task ListPrimitives()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            list:
+              - true
+              - 1337
+              - 'Hello World'
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task ListComplex()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            list:
+              - key: bool
+                value: true
+              - key: number
+                value: 1337
+              - key: string
+                value: 'Hello World'
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    [Fact]
+    public async Task SingleVsMultiChildMismatch()
+    {
+        var (target, yaml) = FromYaml(
+            yamlString: """
+            singleChild: true
+            multiChild:
+              - true
+              - false
+            """
+        );
+
+        var graph = TestSubject.CreateGraph(target);
+
+        await Verify(new TestCase(yaml, graph), VerifySettings);
+    }
+
+    private record TestCase([property: JsonIgnore] string Yaml, [property: JsonProperty(Order = 100)] GraphNode Graph)
+    {
+        private static readonly string Spacer = string.Join("", Enumerable.Range(start: 0, count: 16).Select(_ => "#"));
+
+        [JsonProperty(Order = 0)]
+        public string TestCaseInput => $"{Environment.NewLine}{Spacer}{Environment.NewLine}{Yaml}{Environment.NewLine}{Spacer}";
+    }
+}

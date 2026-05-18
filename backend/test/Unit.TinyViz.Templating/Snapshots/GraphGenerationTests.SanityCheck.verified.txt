@@ -1,0 +1,19 @@
+﻿{
+  TestCaseInput:
+################
+$extends: "Static.TopLevelTemplate"
+test: yes
+################,
+  Graph: {
+    Children: [
+      {
+        Value: Static.TopLevelTemplate,
+        Name: $extends
+      },
+      {
+        Value: yes,
+        Name: test
+      }
+    ]
+  }
+}

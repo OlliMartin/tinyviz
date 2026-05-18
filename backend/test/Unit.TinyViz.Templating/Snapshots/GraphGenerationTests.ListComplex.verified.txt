@@ -1,0 +1,57 @@
+﻿{
+  TestCaseInput:
+################
+list:
+  - key: bool
+    value: true
+  - key: number
+    value: 1337
+  - key: string
+    value: 'Hello World'
+################,
+  Graph: {
+    Children: [
+      {
+        Name: list,
+        Children: [
+          {
+            Children: [
+              {
+                Value: bool,
+                Name: key
+              },
+              {
+                Value: true,
+                Name: value
+              }
+            ]
+          },
+          {
+            Children: [
+              {
+                Value: number,
+                Name: key
+              },
+              {
+                Value: 1337,
+                Name: value
+              }
+            ]
+          },
+          {
+            Children: [
+              {
+                Value: string,
+                Name: key
+              },
+              {
+                Value: Hello World,
+                Name: value
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
