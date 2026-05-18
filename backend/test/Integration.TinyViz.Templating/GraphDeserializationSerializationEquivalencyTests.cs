@@ -7,7 +7,7 @@ namespace Integration.TinyViz.Templating;
 
 public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRuntime templatingTestRuntime)
 {
-    private readonly ISerializer stringSerializer = new SerializerBuilder().Build();
+    private readonly ISerializer stringSerializer = new SerializerBuilder().WithIndentedSequences().Build();
 
     private DefaultTemplatingEngine TestSubject
     {
@@ -37,8 +37,36 @@ public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRun
             yield return _("decimal: 1.4");
             yield return _("string: Hello World");
 
-            yield return _("emptyObject: { }");
-            yield return _("emptyList: [ ]");
+            yield return _("objectEmpty: {}");
+
+            yield return _("listEmpty: []");
+
+            yield return _(
+                yaml: """
+                listBool:
+                  - true
+                  - false
+                """
+            );
+
+            yield return _(
+                yaml: """
+                listComplex:
+                  - key: Key1
+                    value: Value1
+                  - key: Key2
+                    value: Value2
+                """
+            );
+
+            yield return _(
+                yaml: """
+                listNumber:
+                  - 1337
+                  - 4711
+                  - 6969
+                """
+            );
         }
     }
 

@@ -32,8 +32,12 @@ internal class DefaultTemplatingEngine(IEnumerable<INodeFactory> nodeFactories) 
 
         var children = new List<GraphNode>();
 
+        var serializationHint = SerializationHint.Unknown;
+
         if (content is Dictionary<object, object?> dict)
         {
+            serializationHint = SerializationHint.WasMap;
+
             foreach (var kvp in dict)
             {
                 children.Add(GenerateGraph(node, kvp.Value, kvp.Key));
@@ -41,6 +45,8 @@ internal class DefaultTemplatingEngine(IEnumerable<INodeFactory> nodeFactories) 
         }
         else if (content is Dictionary<string, object?> keyedDict)
         {
+            serializationHint = SerializationHint.WasMap;
+
             foreach (var kvp in keyedDict)
             {
                 children.Add(GenerateGraph(node, kvp.Value, kvp.Key));
@@ -48,6 +54,8 @@ internal class DefaultTemplatingEngine(IEnumerable<INodeFactory> nodeFactories) 
         }
         else if (content is IList<object?> list)
         {
+            serializationHint = SerializationHint.WasList;
+
             foreach (var item in list)
             {
                 children.Add(GenerateGraph(node, item));
@@ -58,6 +66,7 @@ internal class DefaultTemplatingEngine(IEnumerable<INodeFactory> nodeFactories) 
         {
             Children = node.Children ?? children,
             Parent = parent,
+            SerializationHint = serializationHint,
         };
     }
 }
