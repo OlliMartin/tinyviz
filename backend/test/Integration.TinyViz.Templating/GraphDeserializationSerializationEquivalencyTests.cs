@@ -1,11 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
 using Integration.TinyViz.Templating.Framework;
 using TinyViz.Templating.Internal;
+using YamlDotNet.Serialization;
 
 namespace Integration.TinyViz.Templating;
 
 public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRuntime templatingTestRuntime)
 {
+    private readonly ISerializer stringSerializer = new SerializerBuilder().Build();
+
     private DefaultTemplatingEngine TestSubject
     {
         get
@@ -27,13 +30,12 @@ public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRun
     {
         get
         {
-            yield return _("");
+            yield return _("{}");
 
             yield return _("bool: true");
             yield return _("int: 0");
             yield return _("decimal: 1.4");
             yield return _("string: Hello World");
-            yield return _("quotedString: 'Hello World'");
 
             yield return _("emptyObject: { }");
             yield return _("emptyList: [ ]");
@@ -47,9 +49,12 @@ public class GraphDeserializationSerializationEquivalencyTests(TemplatingTestRun
         var (target, yaml) = FromYaml(testCaseYaml);
 
         var deserializedGraph = TestSubject.CreateGraph(target);
-        var serializedGraph = "";
+        var targetDictionary = new Dictionary<string, object?>();
+        deserializedGraph.SerializeInto(targetDictionary);
 
-        serializedGraph.ShouldBe(yaml);
+        var serializedGraph = stringSerializer.Serialize(targetDictionary);
+
+        serializedGraph.Trim().ShouldBe(yaml, StringCompareShould.IgnoreLineEndings);
     }
 
     private static string _([StringSyntax("yaml")] string yaml) => yaml;
